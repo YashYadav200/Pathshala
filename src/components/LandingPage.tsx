@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Sparkles, Users, BarChart3, Award, BookOpen, Shield, Calendar, Trophy, CheckCircle } from "lucide-react";
+import Link from 'next/link';
 
 // Hero Component
 const Hero = () => {
@@ -34,10 +35,12 @@ const Hero = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: '600ms' }}>
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-8 py-6 text-lg shadow-lg shadow-purple-500/25">
-                Start Your Journey
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Link href="/signin">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-8 py-6 text-lg shadow-lg shadow-purple-500/25">
+                  Start Your Journey
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
               
               <Button variant="outline" size="lg" className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10 px-8 py-6 text-lg">
                 <Play className="mr-2 h-5 w-5" />
@@ -145,7 +148,7 @@ const Courses = () => {
     {
       title: "High School Academic Management",
       description: "Comprehensive LMS solution for grades 9-12 with advanced curriculum tracking and college preparation tools.",
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9d1?w=400&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=200&fit=crop",
       students: "2,500+ Students",
       duration: "Year-Round Program",
       achievement: "98% Success Rate",
@@ -223,8 +226,11 @@ const Courses = () => {
                   </div>
                 </div>
 
-                <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
-                  Learn More
+                <Button variant="outline" size="lg" className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10 px-4 py-3 text-lg w-40">
+                  <Play className="mr-2 h-5 w-5" />
+                  <a href="#features" className="flex items-center">
+                    Learn More
+                  </a>
                 </Button>
               </div>
             </div>

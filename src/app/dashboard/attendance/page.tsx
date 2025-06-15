@@ -188,27 +188,28 @@ export default function AttendancePage() {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 flex items-center">
-          <CalendarIcon className="mr-2 h-8 w-8 text-primary" />
+    <div className="p-2 sm:p-4 bg-black min-h-screen">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center text-white">
+          <CalendarIcon className="mr-2 h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
           Attendance Records
         </h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
           <div>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Select Date</CardTitle>
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-purple-500/10">
+              <CardHeader className="flex flex-row items-center justify-between p-3 sm:p-4">
+                <CardTitle className="text-white text-base sm:text-lg">Select Date</CardTitle>
                 <div className="flex gap-2">
                   <Button 
                     variant="outline" 
                     size="sm" 
                     onClick={refreshStudentList}
                     disabled={loading}
+                    className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10 text-xs h-8"
                   >
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Refresh Students
+                    <RefreshCw className="h-3 w-3 mr-1" />
+                    Refresh
                   </Button>
                   
                   {isAdmin && (
@@ -216,76 +217,77 @@ export default function AttendancePage() {
                       <DialogTrigger asChild>
                         <Button 
                           size="sm" 
-                          className="bg-green-600 hover:bg-green-700 text-white"
+                          className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-2 py-1 w-20 text-xs h-8"
                           disabled={loading}
                         >
-                          <UserCheck className="h-4 w-4 mr-2" />
-                          Mark Attendance
+                          <UserCheck className="h-3 w-2" />
+                          Mark
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[700px]">
+                      <DialogContent className="max-w-[95vw] sm:max-w-[600px] bg-gray-900/95 backdrop-blur-sm border-purple-500/10">
                         <DialogHeader>
-                          <DialogTitle>Mark Student Attendance</DialogTitle>
+                          <DialogTitle className="text-white text-base sm:text-lg">Mark Student Attendance</DialogTitle>
                         </DialogHeader>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mt-3">
                           <div>
                             <Calendar
                               mode="single"
                               selected={selectedDate}
                               onSelect={setSelectedDate}
-                              className="border rounded-md"
+                              className="border border-purple-500/10 rounded-md bg-gray-900/50 [&_.rdp-day]:text-white [&_.rdp-day]:font-medium [&_.rdp-nav_button]:text-white [&_.rdp-nav_button]:hover:bg-purple-500/10 [&_.rdp-nav_button]:border-purple-500/30 [&_.rdp-nav_button]:bg-transparent [&_.rdp-head_cell]:text-purple-400 [&_.rdp-day_selected]:bg-purple-600 [&_.rdp-day_selected]:hover:bg-purple-700 [&_.rdp-day]:hover:bg-purple-500/10 [&_.rdp-button]:text-white [&_.rdp-button]:hover:bg-purple-500/10 [&_.rdp-button]:hover:text-white [&_.rdp-button]:focus:bg-purple-500/10 [&_.rdp-button]:focus:text-white [&_.rdp-button]:focus:ring-purple-500/30 [&_.rdp-caption]:text-white [&_.rdp-caption_label]:text-white [&_.rdp-nav]:text-white"
                             />
-                            <div className="mt-4 space-y-2">
+                            <div className="mt-3 space-y-2">
                               <Button 
                                 type="button" 
                                 variant="outline" 
-                                className="w-full" 
+                                className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 text-xs h-8" 
                                 onClick={markAllPresent}
                               >
-                                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
+                                <CheckCircle className="w-3 h-3 mr-2 text-green-500" />
                                 Mark All Present
                               </Button>
                               <Button 
                                 type="button" 
                                 variant="outline" 
-                                className="w-full" 
+                                className="w-full border-purple-500/30 text-purple-400 hover:bg-purple-500/10 text-xs h-8" 
                                 onClick={markAllAbsent}
                               >
-                                <XCircle className="w-4 h-4 mr-2 text-red-500" />
+                                <XCircle className="w-3 h-3 mr-2 text-red-500" />
                                 Mark All Absent
                               </Button>
                             </div>
                           </div>
-                          <div className="max-h-[400px] overflow-y-auto pr-2">
+                          <div className="max-h-[350px] overflow-y-auto pr-2">
                             <div className="mb-2 flex justify-between items-center">
-                              <span className="font-medium">Students</span>
-                              <span className="text-xs text-muted-foreground">
+                              <span className="font-medium text-white text-xs sm:text-sm">Students</span>
+                              <span className="text-xs text-purple-400">
                                 {attendanceData.filter(s => s.present).length} / {attendanceData.length} Present
                               </span>
                             </div>
                             {isSubmitting ? (
-                              <div className="flex justify-center py-8">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                              <div className="flex justify-center py-6">
+                                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-500"></div>
                               </div>
                             ) : attendanceData.length === 0 ? (
-                              <div className="text-center py-8 text-muted-foreground">
-                                No students found. Click "Refresh Students" to load from database.
+                              <div className="text-center py-6 text-purple-400 text-xs">
+                                No students found. Click "Refresh" to load from database.
                               </div>
                             ) : (
-                              <div className="space-y-2">
+                              <div className="space-y-1">
                                 {attendanceData.map((student) => (
                                   <div 
                                     key={student.studentId} 
-                                    className="flex items-center justify-between p-2 border rounded-md"
+                                    className="flex items-center justify-between p-2 border border-purple-500/10 rounded-md bg-gray-900/50"
                                   >
-                                    <span>{student.studentName}</span>
+                                    <span className="text-white text-xs">{student.studentName}</span>
                                     <div className="flex items-center">
-                                      <span className={`mr-2 text-sm ${student.present ? 'text-green-500' : 'text-red-500'}`}>
+                                      <span className={`mr-2 text-xs ${student.present ? 'text-green-500' : 'text-red-500'}`}>
                                         {student.present ? 'Present' : 'Absent'}
                                       </span>
                                       <Checkbox 
                                         checked={student.present}
                                         onCheckedChange={() => toggleAttendance(student.studentId)}
+                                        className="border-purple-500/30 h-3 w-3"
                                       />
                                     </div>
                                   </div>
@@ -295,7 +297,7 @@ export default function AttendancePage() {
                           </div>
                         </div>
                         <Button 
-                          className="w-full mt-6 bg-green-600 hover:bg-green-700"
+                          className="w-full mt-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-xs h-8"
                           onClick={submitAttendance}
                           disabled={isSubmitting || attendanceData.length === 0}
                         >
@@ -306,88 +308,90 @@ export default function AttendancePage() {
                   )}
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-3 sm:p-4">
                 <Calendar
                   mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}
-                  className="border rounded-md"
+                  className="border border-purple-500/10 rounded-md bg-gray-900/50 [&_.rdp-day]:text-white [&_.rdp-day]:font-medium [&_.rdp-nav_button]:text-white [&_.rdp-nav_button]:hover:bg-purple-500/10 [&_.rdp-nav_button]:border-purple-500/30 [&_.rdp-nav_button]:bg-transparent [&_.rdp-head_cell]:text-purple-400 [&_.rdp-day_selected]:bg-purple-600 [&_.rdp-day_selected]:hover:bg-purple-700 [&_.rdp-day]:hover:bg-purple-500/10 [&_.rdp-button]:text-white [&_.rdp-button]:hover:bg-purple-500/10 [&_.rdp-button]:hover:text-white [&_.rdp-button]:focus:bg-purple-500/10 [&_.rdp-button]:focus:text-white [&_.rdp-button]:focus:ring-purple-500/30 [&_.rdp-caption]:text-white [&_.rdp-caption_label]:text-white [&_.rdp-nav]:text-white"
                 />
               </CardContent>
             </Card>
           </div>
           
-          <div className="md:col-span-2">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>
+          <div className="lg:col-span-2">
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-purple-500/10">
+              <CardHeader className="flex flex-row items-center justify-between p-3 sm:p-4">
+                <CardTitle className="text-white text-base sm:text-lg">
                   {selectedDate ? format(selectedDate, "EEEE, MMMM d, yyyy") : "Select a date"}
                 </CardTitle>
                 {attendance && (
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20 text-xs">
                       {attendancePercentage}% Present
                     </Badge>
                   </div>
                 )}
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-3 sm:p-4">
                 {loading ? (
-                  <div className="flex justify-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  <div className="flex justify-center py-6">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-500"></div>
                   </div>
                 ) : error ? (
-                  <div className="text-center text-red-500 py-8">{error}</div>
+                  <div className="text-center text-red-500 py-6 text-sm">{error}</div>
                 ) : !attendance ? (
-                  <div className="text-center text-muted-foreground py-8">
+                  <div className="text-center text-purple-400 py-6 text-xs">
                     No attendance record found for this date
                   </div>
                 ) : (
                   <div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <UserCheck className="h-5 w-5 text-green-500" />
-                        <span>{presentCount} Present</span>
+                        <UserCheck className="h-4 w-4 text-green-500" />
+                        <span className="text-white text-xs sm:text-sm">{presentCount} Present</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <UserX className="h-5 w-5 text-red-500" />
-                        <span>{absentCount} Absent</span>
+                        <UserX className="h-4 w-4 text-red-500" />
+                        <span className="text-white text-xs sm:text-sm">{absentCount} Absent</span>
                       </div>
                     </div>
                     
-                    <div className="border rounded-md overflow-hidden">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-muted/50">
-                          <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                              Student
-                            </th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                              Status
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {attendance.students.map((student) => (
-                            <tr key={student.studentId}>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                {student.studentName}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-right">
-                                {student.present ? (
-                                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                                    Present
-                                  </Badge>
-                                ) : (
-                                  <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-                                    Absent
-                                  </Badge>
-                                )}
-                              </td>
+                    <div className="border border-purple-500/10 rounded-md overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-purple-500/10">
+                          <thead className="bg-gray-900/50">
+                            <tr>
+                              <th className="px-3 sm:px-4 py-2 text-left text-xs font-medium text-purple-400 uppercase tracking-wider">
+                                Student
+                              </th>
+                              <th className="px-3 sm:px-4 py-2 text-right text-xs font-medium text-purple-400 uppercase tracking-wider">
+                                Status
+                              </th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody className="bg-gray-900/30 divide-y divide-purple-500/10">
+                            {attendance.students.map((student) => (
+                              <tr key={student.studentId}>
+                                <td className="px-3 sm:px-4 py-2 whitespace-nowrap text-white text-xs">
+                                  {student.studentName}
+                                </td>
+                                <td className="px-3 sm:px-4 py-2 whitespace-nowrap text-right">
+                                  {student.present ? (
+                                    <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/20 text-xs">
+                                      Present
+                                    </Badge>
+                                  ) : (
+                                    <Badge variant="outline" className="bg-red-500/10 text-red-400 border-red-500/20 text-xs">
+                                      Absent
+                                    </Badge>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 )}

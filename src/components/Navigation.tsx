@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
+import Link from 'next/link';
 
 const Navigation = () => {
   return (
@@ -31,12 +32,16 @@ const Navigation = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-purple-500/10">
-              Log in
-            </Button>
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-              Sign up
-            </Button>
+            <Link href="/signin">
+              <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-purple-500/10">
+                Log in
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                Sign up
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
