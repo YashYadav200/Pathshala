@@ -4,12 +4,10 @@ import Feedback from "@/lib/models/Feedback";
 import { getCurrentUser } from "@/lib/auth";
 import User from "@/lib/models/User";
 
-// Respond to feedback
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   try {
     await connectDB();
     
-    // Get the current user ID
     const userId = await getCurrentUser();
     if (!userId) {
       return NextResponse.json({
@@ -18,7 +16,6 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       }, { status: 401 });
     }
     
-    // Verify admin status (you should implement this check)
     const isAdmin = await checkIfUserIsAdmin();
     if (!isAdmin) {
       return NextResponse.json({
@@ -37,7 +34,6 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       }, { status: 400 });
     }
     
-    // Update the feedback with response
     const updatedFeedback = await Feedback.findByIdAndUpdate(
       id,
       {
@@ -70,18 +66,13 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   }
 }
 
-// Helper function to check if user is admin
 async function checkIfUserIsAdmin(): Promise<boolean> {
   try {
-    // Get the current user ID from the session/token
     const userId = await getCurrentUser();
     if (!userId) return false;
     
-    // Fetch the user from the database to check their role
-    
     const user = await User.findById(userId);
     
-    // Check if user exists and has admin role
     return user && user.role === 'admin';
   } catch (error) {
     console.error("Error checking admin status:", error);

@@ -24,12 +24,11 @@ type FeedbackItem = {
 export default function FeedbackPage() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-  const [type, setType] = useState("feedback"); // "feedback" or "doubt"
+  const [type, setType] = useState("feedback");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [previousFeedback, setPreviousFeedback] = useState<FeedbackItem[]>([]);
 
-  // Fetch previous feedback from API
   useEffect(() => {
     async function fetchFeedback() {
       try {
@@ -78,10 +77,8 @@ export default function FeedbackPage() {
       
       const data = await response.json();
       
-      // Add to local state
       setPreviousFeedback(prev => [data.feedback, ...prev]);
       
-      // Reset form
       setSubject("");
       setMessage("");
       setType("feedback");
@@ -105,7 +102,6 @@ export default function FeedbackPage() {
           </h1>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Submission Form */}
             <Card className="bg-gray-900 border border-purple-500/20">
               <CardHeader className="border-b border-purple-500/20">
                 <CardTitle className="text-white">Submit Your Thoughts</CardTitle>
@@ -176,7 +172,6 @@ export default function FeedbackPage() {
               </form>
             </Card>
             
-            {/* Previous Submissions */}
             <div className="space-y-4 sm:space-y-6">
               <h2 className="text-xl font-semibold text-white">Your Previous Submissions</h2>
               
@@ -198,42 +193,31 @@ export default function FeedbackPage() {
                 previousFeedback.map((item) => (
                   <Card 
                     key={item._id} 
-                    className={`bg-gray-900 border ${
-                      item.status === "responded" 
-                        ? "border-purple-500/40" 
-                        : "border-purple-500/20 hover:border-purple-500/40"
-                    }`}
+                    className="bg-gray-900/50 border border-purple-500/20"
                   >
-                    <CardHeader className="pb-2 border-b border-purple-500/20">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <CardTitle className="text-base text-white">{item.subject}</CardTitle>
-                          <CardDescription className="text-xs text-gray-400">
-                            {new Date(item.createdAt).toLocaleDateString()} • 
-                            {item.type === "feedback" ? "Feedback" : "Question"}
-                          </CardDescription>
-                        </div>
-                        <div className={`px-2 py-1 rounded-full text-xs ${
-                          item.status === "responded" 
-                            ? "bg-purple-500/20 text-purple-400 border border-purple-500/30" 
-                            : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                        }`}>
-                          {item.status === "responded" ? "Responded" : "Pending"}
-                        </div>
+                    <CardHeader className="p-4">
+                      <div className="flex items-center justify-between">
+                        <Badge 
+                          variant="outline" 
+                          className={`${item.type === 'feedback' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20'} text-xs`}
+                        >
+                          {item.type === 'feedback' ? 'Feedback' : 'Question'}
+                        </Badge>
+                        <span className="text-xs text-gray-400">
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </span>
                       </div>
+                      <CardTitle className="text-white text-base mt-2">{item.subject}</CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-4">
-                      <p className="text-sm text-gray-300">{item.message}</p>
-                      
+                    <CardContent className="p-4 pt-0">
+                      <p className="text-gray-300 text-sm">{item.message}</p>
                       {item.response && (
-                        <div className="mt-4 pt-4 border-t border-purple-500/20">
-                          <p className="text-xs font-medium text-purple-400 mb-1">Response:</p>
-                          <p className="text-sm text-gray-300">{item.response}</p>
-                          {item.respondedAt && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              Responded on {new Date(item.respondedAt).toLocaleDateString()}
-                            </p>
-                          )}
+                        <div className="mt-4 p-3 bg-gray-900 rounded-md border border-purple-500/10">
+                          <div className="flex items-center gap-2 mb-2">
+                            <ThumbsUp className="h-4 w-4 text-purple-400" />
+                            <span className="text-xs text-purple-400">Response</span>
+                          </div>
+                          <p className="text-gray-300 text-sm">{item.response}</p>
                         </div>
                       )}
                     </CardContent>

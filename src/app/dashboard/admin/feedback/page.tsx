@@ -52,7 +52,6 @@ export default function AdminFeedbackPage() {
   const [respondingTo, setRespondingTo] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Check if user is admin
   useEffect(() => {
     async function checkAuth() {
       try {
@@ -63,19 +62,15 @@ export default function AdminFeedbackPage() {
             setIsAuthorized(true);
             fetchFeedback();
           } else {
-            // Show toast for non-admin users
             toast.error("Access Denied", {
               description: "You don't have permission to access this page.",
             });
-            // Redirect non-admin users
             router.replace('/dashboard');
           }
         } else {
-          // Show toast for unauthenticated users
           toast.error("Authentication Required", {
             description: "Please sign in to continue.",
           });
-          // Redirect unauthenticated users
           router.replace('/signin');
         }
       } catch (error) {
@@ -92,7 +87,6 @@ export default function AdminFeedbackPage() {
     checkAuth();
   }, [router]);
 
-  // Fetch all feedback
   const fetchFeedback = async () => {
     try {
       const response = await fetch('/api/admin/feedback');
@@ -111,7 +105,6 @@ export default function AdminFeedbackPage() {
     }
   };
 
-  // Handle responding to feedback
   const handleRespond = async (feedbackId: string) => {
     if (!responseText.trim()) {
       toast.error("Response cannot be empty");
@@ -134,12 +127,10 @@ export default function AdminFeedbackPage() {
       
       const data = await response.json();
       
-      // Update local state
       setFeedback(prev => prev.map(item => 
         item._id === feedbackId ? { ...item, status: 'responded', response: responseText, respondedAt: new Date().toISOString() } : item
       ));
       
-      // Reset form
       setResponseText("");
       setRespondingTo(null);
       
@@ -152,7 +143,6 @@ export default function AdminFeedbackPage() {
     }
   };
 
-  // Filter feedback based on active tab
   const filteredFeedback = feedback.filter(item => {
     if (activeTab === "all") return true;
     if (activeTab === "pending") return item.status === "pending";
@@ -162,7 +152,6 @@ export default function AdminFeedbackPage() {
     return true;
   });
 
-  // Show loading state while checking auth
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -171,7 +160,6 @@ export default function AdminFeedbackPage() {
     );
   }
   
-  // If not authorized, don't render the page content
   if (!isAuthorized) {
     return null;
   }

@@ -15,7 +15,6 @@ export async function POST(req: Request) {
         const file = formData.get("file") as File;
         const semesterValue = formData.get("semester");
         
-        // Log all form data for debugging
         console.log("Form data received:", {
             title,
             description,
@@ -24,7 +23,6 @@ export async function POST(req: Request) {
             semesterType: typeof semesterValue
         });
         
-        // Ensure semester is properly parsed as a number
         const semester = semesterValue ? parseInt(semesterValue as string) : 1;
         
         if (!title || !file) {
@@ -34,7 +32,6 @@ export async function POST(req: Request) {
             }, { status: 400 });
         }
 
-        // Validate semester
         if (isNaN(semester) || semester < 1 || semester > 8) {
             return NextResponse.json({
                 success: false,
@@ -42,39 +39,34 @@ export async function POST(req: Request) {
             }, { status: 400 });
         }
 
-        // Create uploads directory if it doesn't exist
         const uploadsDir = path.join(process.cwd(), "public/uploads/materials");
         await mkdir(uploadsDir, { recursive: true });
 
-        // Create unique filename
         const bytes = new Uint8Array(8);
         crypto.getRandomValues(bytes);
         const uniqueId = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
         const fileName = `${uniqueId}-${file.name.replace(/\s+/g, '-')}`;
         const filePath = path.join(uploadsDir, fileName);
 
-        // Save file to disk
         const fileBuffer = await file.arrayBuffer();
         await writeFile(filePath, Buffer.from(fileBuffer));
 
-        // Get file extension
         const fileExt = path.extname(file.name).substring(1).toLowerCase();
         const fileType = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'txt'].includes(fileExt) 
             ? fileExt 
             : 'other';
 
-        // Save material to database with semester field
         const material = await Material.create({
             title,
             description,
             fileUrl: `/uploads/materials/${fileName}`,
             fileType,
-            semester, // Make sure semester is included here
+            semester,
             size: file.size,
             uploadedBy: "admin",
         });
 
-        console.log("Created material:", material); // Log the created material
+        console.log("Created material:", material);
 
         return NextResponse.json({
             success: true,
@@ -94,15 +86,12 @@ export async function GET(request: Request) {
     try {
         await connectDB();
         
-        // Get semester from query params if it exists
         const { searchParams } = new URL(request.url);
         const semester = searchParams.get('semester');
         
-        // Build query based on whether semester filter is applied
         let query = {};
         
         if (semester) {
-            // Only filter by semester if it's provided
             query = { semester: parseInt(semester) };
         }
         

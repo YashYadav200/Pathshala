@@ -70,7 +70,6 @@ export default function LecturesPage() {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-white">Available Lectures</h1>
           
-          {/* Semester filter buttons */}
           <div className="mb-6 sm:mb-8 flex flex-wrap gap-2">
             <Button
               variant={selectedSemester === null ? "default" : "outline"}

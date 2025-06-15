@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react"; // Make sure useEffect is imported if you fetch status
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,43 +11,38 @@ import {
   Menu,
   Shield,
   X,
-  MessageSquare, // Add this import for the feedback icon
+  MessageSquare,
 } from "lucide-react";
 
-// Placeholder for your actual admin check function
-// Actual implementation of admin check function
 async function checkIfUserIsAdmin(): Promise<boolean> {
   try {
-    // Make an API call to your backend to verify admin status
     const response = await fetch('/api/auth/me');
     
     if (!response.ok) {
       console.error('Failed to fetch user data');
-      return false; // If API call fails, default to non-admin
+      return false;
     }
     
     const data = await response.json();
     
-    // Check if user exists and has admin role
     return data.user && data.user.role === 'admin';
   } catch (error) {
     console.error('Error checking admin status:', error);
-    return false; // If any error occurs, default to non-admin
+    return false;
   }
 }
 
 export default function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false); // Initial state
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Fetch admin status when the component mounts
     const fetchAdminStatus = async () => {
       const adminStatus = await checkIfUserIsAdmin();
       setIsAdmin(adminStatus);
     };
     fetchAdminStatus();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   const allMenuItems = [
     {
@@ -93,7 +88,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-950">
-      {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-gray-900 border-b border-purple-500/20 z-40 flex items-center px-4">
         <Button
           variant="ghost"
@@ -110,7 +104,6 @@ export default function DashboardPage() {
         <h2 className="text-lg font-bold text-white ml-2">Pathshala</h2>
       </div>
 
-      {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-[85vw] max-w-[300px] bg-gray-900 border-r border-purple-500/20 transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -142,7 +135,6 @@ export default function DashboardPage() {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <main
         className={`transition-all duration-300 ${
           isSidebarOpen ? "lg:ml-64" : "ml-0"
@@ -154,7 +146,6 @@ export default function DashboardPage() {
               Dashboard Overview
             </h1>
 
-            {/* Dashboard Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
               {menuItems.map((item, index) => (
                 <Link
@@ -180,7 +171,6 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"

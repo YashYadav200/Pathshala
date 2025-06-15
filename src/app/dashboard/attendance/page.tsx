@@ -34,14 +34,12 @@ export default function AttendancePage() {
   const [attendanceData, setAttendanceData] = useState<Student[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Calculate attendance statistics
   const presentCount = attendance?.students.filter(s => s.present).length || 0;
   const absentCount = attendance?.students.length ? attendance.students.length - presentCount : 0;
   const attendancePercentage = attendance?.students.length 
     ? Math.round((presentCount / attendance.students.length) * 100) 
     : 0;
 
-  // Check if user is admin
   useEffect(() => {
     async function checkAdmin() {
       try {
@@ -81,7 +79,6 @@ export default function AttendancePage() {
       const data = await response.json();
       setAttendance(data.attendance);
       
-      // Set attendance data for marking form
       if (data.attendance) {
         setAttendanceData(data.attendance.students);
       } else {
@@ -95,7 +92,6 @@ export default function AttendancePage() {
     }
   };
   
-  // Function to refresh student list from database
   const refreshStudentList = async () => {
     if (!selectedDate) return;
     
@@ -109,7 +105,6 @@ export default function AttendancePage() {
         },
         body: JSON.stringify({
           date: formattedDate,
-          // Not sending students will trigger fetching from database
         }),
       });
       
@@ -130,7 +125,6 @@ export default function AttendancePage() {
     }
   };
   
-  // Toggle attendance for a student
   const toggleAttendance = (studentId: string) => {
     setAttendanceData(prev => 
       prev.map(student => 
@@ -141,21 +135,18 @@ export default function AttendancePage() {
     );
   };
 
-  // Mark all students present
   const markAllPresent = () => {
     setAttendanceData(prev => 
       prev.map(student => ({ ...student, present: true }))
     );
   };
 
-  // Mark all students absent
   const markAllAbsent = () => {
     setAttendanceData(prev => 
       prev.map(student => ({ ...student, present: false }))
     );
   };
 
-  // Submit attendance
   const submitAttendance = async () => {
     if (!selectedDate) return;
     

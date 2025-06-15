@@ -17,15 +17,13 @@ export async function POST(req: Request) {
       }, { status: 400 });
     }
     
-    // Create a temporary ObjectId for createdBy
-    // In a real app, you would get this from authentication
     const tempUserId = new mongoose.Types.ObjectId();
     
     const announcement = await Announcement.create({
       title,
       description,
       important: important || false,
-      createdBy: tempUserId, // Use ObjectId instead of string
+      createdBy: tempUserId,
     });
     
     return NextResponse.json({
@@ -47,7 +45,7 @@ export async function GET() {
     await connectDB();
     
     const announcements = await Announcement.find()
-      .sort({ createdAt: -1 }) // Most recent first
+      .sort({ createdAt: -1 })
       .select("title description important createdAt");
     
     return NextResponse.json({

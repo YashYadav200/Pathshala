@@ -6,15 +6,13 @@ export async function GET(request: Request) {
   try {
     await connectDB();
     
-    // Get semester from query params if it exists
     const { searchParams } = new URL(request.url);
     const semester = searchParams.get('semester');
     
-    // Build query based on whether semester filter is applied
     const query = semester ? { semester: parseInt(semester) } : {};
 
     const lectures = await Lecture.find(query)
-      .sort({ createdAt: -1 }) // Most recent first
+      .sort({ createdAt: -1 })
       .select("title description videoUrl semester createdAt");
 
     return NextResponse.json({

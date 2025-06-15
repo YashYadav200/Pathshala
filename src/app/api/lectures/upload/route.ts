@@ -14,7 +14,6 @@ export async function POST(req: Request) {
     const video = formData.get("video") as File;
     const semester = parseInt(formData.get("semester") as string);
 
-    // Validate semester
     if (isNaN(semester) || semester < 1 || semester > 8) {
       return NextResponse.json({
         success: false,
@@ -22,18 +21,15 @@ export async function POST(req: Request) {
       }, { status: 400 });
     }
 
-    // Create unique filename
     const bytes = new Uint8Array(8);
     crypto.getRandomValues(bytes);
     const uniqueSuffix = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
     const fileName = `${uniqueSuffix}-${video.name}`;
 
-    // Save video to public directory
     const videoBuf = await video.arrayBuffer();
     const videoPath = path.join(process.cwd(), 'public', 'uploads', 'videos', fileName);
     await writeFile(videoPath, Buffer.from(videoBuf));
 
-    // Save video URL in database
     const videoUrl = `/uploads/videos/${fileName}`;
 
     const lecture = await Lecture.create({

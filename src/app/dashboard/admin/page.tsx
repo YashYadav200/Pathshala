@@ -21,7 +21,6 @@ import { format } from "date-fns";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 
-// Mock student data (replace with actual data from your database)
 const MOCK_STUDENTS = Array.from({ length: 40 }, (_, i) => ({
   studentId: `student-${i + 1}`,
   studentName: `Student ${i + 1}`,
@@ -30,7 +29,6 @@ const MOCK_STUDENTS = Array.from({ length: 40 }, (_, i) => ({
 export default function AdminPage() {
   const router = useRouter();
   
-  // Move ALL state declarations to the top level
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,7 +49,6 @@ export default function AdminPage() {
   const [attendanceLoaded, setAttendanceLoaded] = useState(false);
   const [semester, setSemester] = useState("1");
   
-  // Check if user is admin
   useEffect(() => {
     async function checkAuth() {
       try {
@@ -86,7 +83,6 @@ export default function AdminPage() {
     checkAuth();
   }, [router]);
   
-  // Show loading state while checking auth
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -95,7 +91,6 @@ export default function AdminPage() {
     );
   }
   
-  // If not authorized, don't render the page content
   if (!isAuthorized) {
     return null;
   }

@@ -5,7 +5,6 @@ import { getAuthCookie, verifyToken } from '@/lib/auth';
 
 export async function GET() {
   try {
-    // Get the auth token from cookies
     const token = await getAuthCookie();
     
     if (!token) {
@@ -15,7 +14,6 @@ export async function GET() {
       );
     }
     
-    // Verify the token
     const payload = verifyToken(token);
     if (!payload) {
       return NextResponse.json(
@@ -24,10 +22,8 @@ export async function GET() {
       );
     }
     
-    // Connect to database
     await connectDB();
     
-    // Get user from database
     const user = await User.findById(payload.sub);
     if (!user) {
       return NextResponse.json(
@@ -36,7 +32,6 @@ export async function GET() {
       );
     }
     
-    // Return user data (excluding sensitive information)
     return NextResponse.json({
       user: {
         id: user._id,
