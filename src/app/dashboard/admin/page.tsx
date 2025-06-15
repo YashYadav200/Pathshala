@@ -80,7 +80,7 @@ export default function AdminPage() {
     }
 
     checkAuth();
-  },);
+  }, [router]);
 
   if (isLoading) {
     return (
@@ -93,6 +93,16 @@ export default function AdminPage() {
   if (!isAuthorized) {
     return null;
   }
+
+  const handleVideoFileClick = () => {
+    const input = document.getElementById('video') as HTMLInputElement;
+    input?.click();
+  };
+
+  const handleMaterialFileClick = () => {
+    const input = document.getElementById('file') as HTMLInputElement;
+    input?.click();
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -353,15 +363,15 @@ export default function AdminPage() {
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVideo(e.target.files ? e.target.files[0] : null)}
                           className="hidden"
                         />
-                        <label
-                          htmlFor="video"
+                        <div
+                          onClick={handleVideoFileClick}
                           className="flex flex-col items-center gap-2 cursor-pointer"
                         >
                           <Video className="w-8 h-8 text-purple-400/70" />
                           <span className="text-sm text-purple-400/70">
                             {video ? video.name : "Click to upload video"}
                           </span>
-                        </label>
+                        </div>
                       </div>
                     </div>
 
@@ -435,15 +445,15 @@ export default function AdminPage() {
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files ? e.target.files[0] : null)}
                           className="hidden"
                         />
-                        <label
-                          htmlFor="file"
+                        <div
+                          onClick={handleMaterialFileClick}
                           className="flex flex-col items-center gap-2 cursor-pointer"
                         >
                           <FileText className="w-8 h-8 text-purple-400/70" />
                           <span className="text-sm text-purple-400/70">
                             {file ? file.name : "Click to upload document"}
                           </span>
-                        </label>
+                        </div>
                       </div>
                     </div>
 

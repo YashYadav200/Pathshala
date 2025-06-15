@@ -7,7 +7,7 @@ import Link from 'next/link';
 const Hero = () => {
   return (
     <section className="min-h-screen bg-black text-white flex items-center relative overflow-hidden">
-     
+
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/3 rounded-full blur-3xl"></div>
@@ -22,15 +22,15 @@ const Hero = () => {
                   ✨ Next-Generation Learning Management
                 </span>
               </div>
-              
+
               <h1 className="text-6xl lg:text-7xl font-bold leading-tight animate-fade-in" style={{ animationDelay: '200ms' }}>
                 Revolutionize Your
                 <br />
                 <span className="gradient-text">Academic Journey</span>
               </h1>
-              
+
               <p className="text-gray-300 text-xl leading-relaxed max-w-lg animate-fade-in" style={{ animationDelay: '400ms' }}>
-                Empower students, educators, and institutions with our cutting-edge learning management system. 
+                Empower students, educators, and institutions with our cutting-edge learning management system.
                 Transform traditional classrooms into dynamic, interactive learning environments where knowledge meets innovation.
               </p>
             </div>
@@ -42,7 +42,7 @@ const Hero = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              
+
               <Button variant="outline" size="lg" className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10 px-8 py-6 text-lg">
                 <Play className="mr-2 h-5 w-5" />
                 Discover Features
@@ -54,7 +54,7 @@ const Hero = () => {
             <div className="bg-gray-900/30 backdrop-blur-sm rounded-3xl border border-purple-500/10 overflow-hidden">
               {/* Replace img with Next.js Image component */}
               <Image
-                src="/globe.svg"
+                src="/ChatGPT Image Jun 15, 2025 at 09_30_49 AM.png"
                 alt="Globe"
                 width={500}
                 height={300}
@@ -117,15 +117,15 @@ const Features = () => {
             <span className="gradient-text">Needs to Excel</span>
           </h2>
           <p className="text-gray-400 text-xl max-w-3xl mx-auto">
-            Comprehensive tools and features designed specifically for schools, colleges, and universities to enhance 
+            Comprehensive tools and features designed specifically for schools, colleges, and universities to enhance
             educational outcomes and streamline academic operations.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/10 hover:border-purple-500/30 transition-all duration-300 hover:bg-gray-900/70 group"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl flex items-center justify-center mb-6 border border-purple-500/20 group-hover:scale-110 transition-transform duration-300">
@@ -200,8 +200,10 @@ const Courses = () => {
             <div key={index} className="bg-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-500/10 hover:border-purple-500/30 transition-all duration-300 hover:bg-gray-900/70 group">
               <div className="relative">
                 <Image
-                  src={program.image} 
+                  src={program.image}
                   alt={program.title}
+                  width={400}
+                  height={200}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-4 left-4">
@@ -213,7 +215,7 @@ const Courses = () => {
               <div className="p-6">
                 <h3 className="text-white font-semibold text-xl mb-3">{program.title}</h3>
                 <p className="text-gray-400 mb-6 text-sm leading-relaxed">{program.description}</p>
-                
+
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center text-sm text-gray-400">
                     <Users className="h-4 w-4 mr-2 text-purple-400" />
@@ -254,7 +256,7 @@ const CTA = () => {
             🌟 Transform Your Institution
           </span>
         </div>
-        
+
         <h2 className="text-5xl font-bold text-white mb-6">
           Ready to Revolutionize
           <br />
@@ -262,12 +264,12 @@ const CTA = () => {
             Educational Excellence?
           </span>
         </h2>
-        
+
         <p className="text-gray-300 text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
-          Join hundreds of educational institutions worldwide who trust Pathshala to deliver exceptional 
+          Join hundreds of educational institutions worldwide who trust Pathshala to deliver exceptional
           learning experiences. Elevate your academic programs with our comprehensive LMS solution.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row gap-6 justify-center mb-10">
           <Button size="lg" className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-12 py-6 text-lg shadow-lg shadow-purple-500/25">
             Request Demo

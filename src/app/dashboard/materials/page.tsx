@@ -158,7 +158,7 @@ export default function MaterialsPage() {
                   
                   <Button 
                     variant="outline" 
-                    className="w-full border-purple-500/20 text-white hover:bg-purple-500/10" 
+                    className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10" 
                     asChild
                   >
                     <a href={material.fileUrl} target="_blank" rel="noopener noreferrer" download>
