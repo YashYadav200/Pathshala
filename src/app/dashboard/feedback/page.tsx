@@ -9,6 +9,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MessageSquare, Send, ThumbsUp } from "lucide-react";
 import { toast } from "sonner";
+// Add Badge import at top:
+import { Badge } from '@/components/ui/badge';
 
 type FeedbackItem = {
   _id: string;

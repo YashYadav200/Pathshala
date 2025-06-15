@@ -261,7 +261,7 @@ export default function AttendancePage() {
                               </div>
                             ) : attendanceData.length === 0 ? (
                               <div className="text-center py-6 text-purple-400 text-xs">
-                                No students found. Click "Refresh" to load from database.
+                                No students found. Click &quot;Refresh&quot; to load from database.
                               </div>
                             ) : (
                               <div className="space-y-1">
@@ -273,7 +273,10 @@ export default function AttendancePage() {
                                     <span className="text-white text-xs">{student.studentName}</span>
                                     <div className="flex items-center">
                                       <span className={`mr-2 text-xs ${student.present ? 'text-green-500' : 'text-red-500'}`}>
-                                        {student.present ? 'Present' : 'Absent'}
+                  
+                                        <span className="text-sm text-gray-500">
+                                          {student.present ? 'Present' : 'Absent'}
+                                        </span>
                                       </span>
                                       <Checkbox 
                                         checked={student.present}

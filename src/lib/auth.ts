@@ -8,13 +8,13 @@ if (!JWT_SECRET) {
   throw new Error('Please define the JWT_SECRET environment variable');
 }
 
-// Hash password
+
 export async function hashPassword(password: string): Promise<string> {
   const saltRounds = 10;
   return await bcrypt.hash(password, saltRounds);
 }
 
-// Verify password
+
 export async function verifyPassword(
   password: string,
   hashedPassword: string
@@ -34,7 +34,7 @@ export function generateToken(payload: { id: string; role: string }): string {
   );
 }
 
-// Define a type for the token payload
+
 type TokenPayload = {
   sub: string;
   role: string;
@@ -42,7 +42,7 @@ type TokenPayload = {
   exp: number;
 };
 
-// Verify JWT token
+
 export function verifyToken(token: string): TokenPayload | null {
   try {
     return jwt.verify(token, JWT_SECRET) as TokenPayload;
@@ -51,8 +51,22 @@ export function verifyToken(token: string): TokenPayload | null {
   }
 }
 
-// Set auth cookie
-export function setAuthCookie(response: any, token: string): any {
+
+// Define proper types for the response parameter
+type ResponseWithCookies = {
+  cookies: {
+    set: (options: {
+      name: string;
+      value: string;
+      httpOnly: boolean;
+      secure: boolean;
+      maxAge: number;
+      path: string;
+    }) => void;
+  };
+};
+
+export function setAuthCookie(response: ResponseWithCookies, token: string): ResponseWithCookies {
   response.cookies.set({
     name: 'authToken',
     value: token,
@@ -64,6 +78,9 @@ export function setAuthCookie(response: any, token: string): any {
   
   return response;
 }
+
+// Remove unused variables in updateUserSession function
+
 
 // Get auth cookie
 export async function getAuthCookie(): Promise<string | undefined> {
@@ -85,3 +102,23 @@ export async function getCurrentUser(): Promise<string | null> {
   const payload = verifyToken(token);
   return payload?.sub ?? null;
 }
+
+// Replace line 55 with proper types:
+// Replace empty interface with:
+// interface UserSession {
+//   id: string;
+//   email: string;
+//   role: string;
+// }
+
+export const authenticateUser = async () => {
+  // ... existing code ...
+};
+
+// Update function signature:
+// export const updateUserSession = async (
+//   session: UserSession,
+//   updates: Partial<UserSession>
+// ) => {
+//   // ... implementation
+// };

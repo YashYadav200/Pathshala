@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Sparkles, Users, BarChart3, Award, BookOpen, Shield, Calendar, Trophy, CheckCircle } from "lucide-react";
+import Image from "next/image";
 import Link from 'next/link';
 
-// Hero Component
+
 const Hero = () => {
   return (
     <section className="min-h-screen bg-black text-white flex items-center relative overflow-hidden">
-      {/* Subtle background gradients */}
+     
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/3 rounded-full blur-3xl"></div>
@@ -51,10 +52,12 @@ const Hero = () => {
 
           <div className="relative flex justify-center animate-float">
             <div className="bg-gray-900/30 backdrop-blur-sm rounded-3xl border border-purple-500/10 overflow-hidden">
-              <img 
-                src="/ChatGPT Image Jun 15, 2025 at 09_30_49 AM.png"
-                alt="Pathshala - Learning Management System for Students"
-                className="w-full max-w-md h-auto block"
+              {/* Replace img with Next.js Image component */}
+              <Image
+                src="/globe.svg"
+                alt="Globe"
+                width={500}
+                height={300}
               />
             </div>
           </div>
@@ -142,7 +145,7 @@ const Features = () => {
   );
 };
 
-// Courses Component
+
 const Courses = () => {
   const programs = [
     {
@@ -196,7 +199,7 @@ const Courses = () => {
           {programs.map((program, index) => (
             <div key={index} className="bg-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-500/10 hover:border-purple-500/30 transition-all duration-300 hover:bg-gray-900/70 group">
               <div className="relative">
-                <img 
+                <Image
                   src={program.image} 
                   alt={program.title}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"

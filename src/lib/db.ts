@@ -6,10 +6,21 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-let cached = global.mongoose;
+type CachedConnection = {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+};
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+// Extend the global namespace to include mongoose cache
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: CachedConnection | undefined;
+}
+
+const cached: CachedConnection = global.mongoose || { conn: null, promise: null };
+
+if (!global.mongoose) {
+  global.mongoose = cached;
 }
 
 async function connectDB() {
@@ -26,7 +37,7 @@ async function connectDB() {
       return mongoose;
     });
   }
-  
+
   cached.conn = await cached.promise;
   return cached.conn;
 }

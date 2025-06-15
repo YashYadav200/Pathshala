@@ -22,7 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, MessageCircle, Send } from "lucide-react";
 
@@ -48,10 +48,10 @@ export default function AdminFeedbackPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
   const [activeTab, setActiveTab] = useState("all");
+  
   const [responseText, setResponseText] = useState("");
-  const [respondingTo, setRespondingTo] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   useEffect(() => {
     async function checkAuth() {
       try {
@@ -125,14 +125,14 @@ export default function AdminFeedbackPage() {
         throw new Error(errorData.message || 'Failed to respond');
       }
       
-      const data = await response.json();
+      // Removed unused data variable
+      await response.json();
       
       setFeedback(prev => prev.map(item => 
         item._id === feedbackId ? { ...item, status: 'responded', response: responseText, respondedAt: new Date().toISOString() } : item
       ));
       
       setResponseText("");
-      setRespondingTo(null);
       
       toast.success("Response sent successfully");
     } catch (error) {
@@ -233,10 +233,7 @@ export default function AdminFeedbackPage() {
                     {item.status === "pending" ? (
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button 
-                            onClick={() => setRespondingTo(item._id)}
-                            className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
-                          >
+                          <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
                             <MessageCircle className="mr-2 h-4 w-4" />
                             Respond
                           </Button>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Calendar } from "lucide-react";
+import { FileText, Download, Calendar, Play } from "lucide-react";
 
 interface Material {
   _id: string;
@@ -21,7 +21,6 @@ export default function MaterialsPage() {
   const [error, setError] = useState("");
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null);
 
-  // In the useEffect function where you fetch materials
   useEffect(() => {
     async function fetchMaterials() {
       try {
@@ -29,13 +28,13 @@ export default function MaterialsPage() {
           ? `/api/material?semester=${selectedSemester}` 
           : "/api/material";
           
-        console.log("Fetching materials from:", url); // Add this for debugging
+        console.log("Fetching materials from:", url); 
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Failed to fetch materials");
         }
         const data = await response.json();
-        console.log("Fetched materials:", data.materials); // Add this for debugging
+        console.log("Fetched materials:", data.materials); 
         setMaterials(data.materials);
       } catch (err) {
         setError("Failed to load materials");
@@ -48,15 +47,30 @@ export default function MaterialsPage() {
     fetchMaterials();
   }, [selectedSemester]);
 
-  // In the handleSemesterChange function
   const handleSemesterChange = (semester: string | null) => {
-    console.log("Changing semester filter to:", semester); // Add this for debugging
+    console.log("Changing semester filter to:", semester); 
     setSelectedSemester(semester);
     setLoading(true);
   };
 
   const getFileIcon = (fileType: string) => {
-    return <FileText className="h-8 w-8 text-blue-500" />;
+    const type = fileType.toLowerCase();
+    
+    if (type.includes('pdf')) {
+      return <FileText className="h-8 w-8 text-red-400" />;
+    } else if (type.includes('doc') || type.includes('docx')) {
+      return <FileText className="h-8 w-8 text-blue-400" />;
+    } else if (type.includes('ppt') || type.includes('pptx')) {
+      return <FileText className="h-8 w-8 text-orange-400" />;
+    } else if (type.includes('xls') || type.includes('xlsx')) {
+      return <FileText className="h-8 w-8 text-green-400" />;
+    } else if (type.includes('txt')) {
+      return <FileText className="h-8 w-8 text-gray-400" />;
+    } else if (type.includes('video')) {
+      return <Play className="h-8 w-8 text-purple-400" />;
+    } else {
+      return <FileText className="h-8 w-8 text-blue-500" />;
+    }
   };
 
   if (loading) {

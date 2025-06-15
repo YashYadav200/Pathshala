@@ -28,16 +28,16 @@ const MOCK_STUDENTS = Array.from({ length: 40 }, (_, i) => ({
 
 export default function AdminPage() {
   const router = useRouter();
-  
+
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [video, setVideo] = useState(null);
+  const [video, setVideo] = useState<File | null>(null);
   const [materialTitle, setMaterialTitle] = useState("");
   const [materialDescription, setMaterialDescription] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
   const [materialSemester, setMaterialSemester] = useState("1");
   const [announcementTitle, setAnnouncementTitle] = useState("");
   const [announcementDescription, setAnnouncementDescription] = useState("");
@@ -46,9 +46,8 @@ export default function AdminPage() {
   const [attendanceData, setAttendanceData] = useState(
     MOCK_STUDENTS.map(student => ({ ...student, present: false }))
   );
-  const [attendanceLoaded, setAttendanceLoaded] = useState(false);
   const [semester, setSemester] = useState("1");
-  
+
   useEffect(() => {
     async function checkAuth() {
       try {
@@ -79,10 +78,10 @@ export default function AdminPage() {
         setIsLoading(false);
       }
     }
-    
+
     checkAuth();
-  }, [router]);
-  
+  },);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -90,14 +89,14 @@ export default function AdminPage() {
       </div>
     );
   }
-  
+
   if (!isAuthorized) {
     return null;
   }
-  
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
@@ -120,7 +119,7 @@ export default function AdminPage() {
       setDescription("");
       setVideo(null);
       setSemester("1");
-      
+
       toast.success("Lecture uploaded successfully");
     } catch (error) {
       console.error("Upload error:", error);
@@ -128,11 +127,11 @@ export default function AdminPage() {
     }
   };
 
-  const handleMaterialSubmit = async (e) => {
+  const handleMaterialSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const semesterNumber = parseInt(materialSemester);
-    
+
     const formData = new FormData();
     formData.append("title", materialTitle);
     formData.append("description", materialDescription);
@@ -159,7 +158,7 @@ export default function AdminPage() {
       setMaterialDescription("");
       setFile(null);
       setMaterialSemester("1");
-      
+
       toast.success("Material uploaded successfully");
     } catch (error) {
       console.error("Upload error:", error);
@@ -167,9 +166,9 @@ export default function AdminPage() {
     }
   };
 
-  const handleAnnouncementSubmit = async (e) => {
+  const handleAnnouncementSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch("/api/announcement", {
         method: "POST",
@@ -190,73 +189,74 @@ export default function AdminPage() {
       setAnnouncementTitle("");
       setAnnouncementDescription("");
       setIsImportant(false);
-      
+
+      toast.success("Announcement created successfully");
     } catch (error) {
       console.error("Announcement error:", error);
+      toast.error("Failed to create announcement");
     }
   };
 
-  const fetchAttendanceForDate = async (date) => {
+  const fetchAttendanceForDate = async (date: Date) => {
     if (!date) return;
-    
+
     setIsSubmitting(true);
     try {
       const formattedDate = format(date, "yyyy-MM-dd");
       const response = await fetch(`/api/attendance?date=${formattedDate}`);
-      
+
       if (!response.ok) {
         throw new Error("Failed to fetch attendance");
       }
-      
+
       const data = await response.json();
-      
+
       if (data.attendance) {
         setAttendanceData(data.attendance.students);
       } else {
         setAttendanceData(MOCK_STUDENTS.map(student => ({ ...student, present: false })));
       }
-      
-      setAttendanceLoaded(true);
     } catch (error) {
       console.error("Error fetching attendance:", error);
       setAttendanceData(MOCK_STUDENTS.map(student => ({ ...student, present: false })));
+      toast.error("Failed to fetch attendance data");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
+  const handleDateSelect = (date: Date | null) => {
+    setSelectedDate(date || new Date());
     if (date) {
       fetchAttendanceForDate(date);
     }
   };
 
-  const toggleAttendance = (studentId) => {
-    setAttendanceData(prev => 
-      prev.map(student => 
-        student.studentId === studentId 
-          ? { ...student, present: !student.present } 
+  const toggleAttendance = (studentId: string) => {
+    setAttendanceData(prev =>
+      prev.map(student =>
+        student.studentId === studentId
+          ? { ...student, present: !student.present }
           : student
       )
     );
   };
 
   const markAllPresent = () => {
-    setAttendanceData(prev => 
+    setAttendanceData(prev =>
       prev.map(student => ({ ...student, present: true }))
     );
   };
 
   const markAllAbsent = () => {
-    setAttendanceData(prev => 
+    setAttendanceData(prev =>
       prev.map(student => ({ ...student, present: false }))
     );
   };
 
   const submitAttendance = async () => {
     if (!selectedDate) return;
-    
+
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/attendance", {
@@ -269,13 +269,15 @@ export default function AdminPage() {
           students: attendanceData,
         }),
       });
-      
+
       if (!response.ok) {
         throw new Error("Failed to submit attendance");
       }
-      
+
+      toast.success("Attendance submitted successfully");
     } catch (error) {
       console.error("Error submitting attendance:", error);
+      toast.error("Failed to submit attendance");
     } finally {
       setIsSubmitting(false);
     }
@@ -311,7 +313,7 @@ export default function AdminPage() {
                         className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="description" className="text-white">Description</Label>
                       <Textarea
@@ -323,7 +325,7 @@ export default function AdminPage() {
                         className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="semester" className="text-white">Semester</Label>
                       <select
@@ -348,7 +350,7 @@ export default function AdminPage() {
                           id="video"
                           type="file"
                           accept="video/*"
-                          onChange={(e) => setVideo(e.target.files?.[0] || null)}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVideo(e.target.files ? e.target.files[0] : null)}
                           className="hidden"
                         />
                         <label
@@ -393,7 +395,7 @@ export default function AdminPage() {
                         className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="materialDescription" className="text-white">Description</Label>
                       <Textarea
@@ -405,7 +407,7 @@ export default function AdminPage() {
                         className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="materialSemester" className="text-white">Semester</Label>
                       <select
@@ -422,7 +424,7 @@ export default function AdminPage() {
                         ))}
                       </select>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="file" className="text-white">Document</Label>
                       <div className="border-2 border-dashed border-purple-500/20 rounded-lg p-4 hover:border-purple-500/50 transition-colors bg-gray-800">
@@ -430,7 +432,7 @@ export default function AdminPage() {
                           id="file"
                           type="file"
                           accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
-                          onChange={(e) => setFile(e.target.files?.[0] || null)}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files ? e.target.files[0] : null)}
                           className="hidden"
                         />
                         <label
@@ -475,7 +477,7 @@ export default function AdminPage() {
                         className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="announcementDescription" className="text-white">Announcement Content</Label>
                       <Textarea
@@ -489,15 +491,15 @@ export default function AdminPage() {
                     </div>
 
                     <div className="flex items-center space-x-2">
-                      <Checkbox 
-                        id="important" 
+                      <Checkbox
+                        id="important"
                         checked={isImportant}
                         onCheckedChange={(checked) => setIsImportant(checked === true)}
                         className="border-purple-500/20"
                       />
                       <div className="grid gap-1.5 leading-none">
-                        <Label 
-                          htmlFor="important" 
+                        <Label
+                          htmlFor="important"
                           className="flex items-center text-sm font-medium leading-none gap-1 text-white"
                         >
                           <AlertTriangle className="h-4 w-4 text-red-500" />
@@ -530,23 +532,23 @@ export default function AdminPage() {
                       <CalendarComponent
                         mode="single"
                         selected={selectedDate}
-                        onSelect={handleDateSelect}
+                        onSelect={(day: Date | undefined) => handleDateSelect(day || null)}
                         className="border border-purple-500/20 rounded-md bg-gray-800 [&_.rdp-day]:text-white [&_.rdp-day]:font-medium [&_.rdp-nav_button]:text-white [&_.rdp-nav_button]:hover:bg-purple-500/10 [&_.rdp-nav_button]:border-purple-500/30 [&_.rdp-nav_button]:bg-transparent [&_.rdp-head_cell]:text-purple-400 [&_.rdp-day_selected]:bg-purple-600 [&_.rdp-day_selected]:hover:bg-purple-700 [&_.rdp-day]:hover:bg-purple-500/10 [&_.rdp-button]:text-white [&_.rdp-button]:hover:bg-purple-500/10 [&_.rdp-button]:hover:text-white [&_.rdp-button]:focus:bg-purple-500/10 [&_.rdp-button]:focus:text-white [&_.rdp-button]:focus:ring-purple-500/30 [&_.rdp-caption]:text-white [&_.rdp-caption_label]:text-white [&_.rdp-nav]:text-white"
                       />
                       <div className="mt-4 space-y-2">
-                        <Button 
-                          type="button" 
-                          variant="outline" 
-                          className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10" 
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10"
                           onClick={markAllPresent}
                         >
                           <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
                           Mark All Present
                         </Button>
-                        <Button 
-                          type="button" 
-                          variant="outline" 
-                          className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10" 
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10"
                           onClick={markAllAbsent}
                         >
                           <XCircle className="w-4 h-4 mr-2 text-red-500" />
@@ -563,8 +565,8 @@ export default function AdminPage() {
                       ) : (
                         <div className="space-y-2">
                           {attendanceData.map((student) => (
-                            <div 
-                              key={student.studentId} 
+                            <div
+                              key={student.studentId}
                               className="flex items-center justify-between p-2 border border-purple-500/20 rounded-md bg-gray-800"
                             >
                               <span className="text-white">{student.studentName}</span>
@@ -572,7 +574,7 @@ export default function AdminPage() {
                                 <span className={`mr-2 text-sm ${student.present ? 'text-green-500' : 'text-red-500'}`}>
                                   {student.present ? 'Present' : 'Absent'}
                                 </span>
-                                <Checkbox 
+                                <Checkbox
                                   checked={student.present}
                                   onCheckedChange={() => toggleAttendance(student.studentId)}
                                   className="border-purple-500/20"
@@ -584,7 +586,7 @@ export default function AdminPage() {
                       )}
                     </div>
                   </div>
-                  <Button 
+                  <Button
                     className="w-full mt-6 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
                     onClick={submitAttendance}
                     disabled={isSubmitting}
@@ -597,7 +599,7 @@ export default function AdminPage() {
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
         <Link href="/dashboard/admin/feedback" className="p-4 sm:p-6 rounded-xl bg-gray-900 hover:bg-purple-500/10 border border-purple-500/20 transition-colors group">
           <div className="flex items-center gap-4">

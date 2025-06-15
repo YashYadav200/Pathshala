@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/lib/db";
+
+import  connectDB  from '../../../lib/db';
 import Attendance from "@/lib/models/Attendance";
 import User from "@/lib/models/User";
-import mongoose from "mongoose";
+
 
 export async function GET(req: Request) {
   try {
@@ -88,7 +89,7 @@ export async function POST(req: Request) {
     const studentRecords = users.map(user => {
       const userId = user._id.toString();
       const existingStudent = existingAttendance?.students.find(
-        student => student.studentId === userId
+        (student: { studentId: string }) => student.studentId === userId
       );
       
       return {

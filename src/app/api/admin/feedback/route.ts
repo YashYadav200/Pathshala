@@ -3,6 +3,7 @@ import connectDB from "@/lib/db";
 import Feedback from "@/lib/models/Feedback";
 import { getCurrentUser } from "@/lib/auth";
 import mongoose from "mongoose";
+import UserSchema from "../../../../lib/models/User";
 
 export async function GET() {
   try {
@@ -48,7 +49,7 @@ async function checkIfUserIsAdmin(): Promise<boolean> {
     const userId = await getCurrentUser();
     if (!userId) return false;
     
-    const User = mongoose.models.User || mongoose.model('User', UserSchema);
+    const User = mongoose.models.User || mongoose.model('User', UserSchema.schema);
     const user = await User.findById(userId);
     
     return user && user.role === 'admin';
