@@ -96,130 +96,151 @@ export default function FeedbackPage() {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 flex items-center">
-          <MessageSquare className="mr-2 h-8 w-8 text-primary" />
-          Feedback & Doubts
-        </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Submission Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Submit Your Thoughts</CardTitle>
-              <CardDescription>
-                Share your feedback or ask questions about your courses.
-              </CardDescription>
-            </CardHeader>
-            <form onSubmit={handleSubmit}>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="type">Type</Label>
-                  <Select 
-                    value={type} 
-                    onValueChange={setType}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="feedback">Feedback</SelectItem>
-                      <SelectItem value="doubt">Question/Doubt</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    placeholder={type === "feedback" ? "What's your feedback about?" : "What's your question about?"}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder={type === "feedback" ? "Share your detailed feedback..." : "Describe your question in detail..."}
-                    rows={5}
-                  />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent"></div>
-                      Submitting...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="mr-2 h-4 w-4" />
-                      Submit {type === "feedback" ? "Feedback" : "Question"}
-                    </>
-                  )}
-                </Button>
-              </CardFooter>
-            </form>
-          </Card>
+    <div className="min-h-screen bg-gray-950">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 flex items-center text-white">
+            <MessageSquare className="mr-2 h-8 w-8 text-purple-400" />
+            Feedback & Doubts
+          </h1>
           
-          {/* Previous Submissions */}
-          <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Your Previous Submissions</h2>
-            
-            {isLoading ? (
-              <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            ) : previousFeedback.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                You haven't submitted any feedback or questions yet.
-              </div>
-            ) : (
-              previousFeedback.map((item) => (
-                <Card key={item._id} className={item.status === "responded" ? "border-green-200" : ""}>
-                  <CardHeader className="pb-2">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-base">{item.subject}</CardTitle>
-                        <CardDescription className="text-xs">
-                          {new Date(item.createdAt).toLocaleDateString()} • 
-                          {item.type === "feedback" ? "Feedback" : "Question"}
-                        </CardDescription>
-                      </div>
-                      <div className={`px-2 py-1 rounded-full text-xs ${item.status === "responded" ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}>
-                        {item.status === "responded" ? "Responded" : "Pending"}
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm">{item.message}</p>
-                    
-                    {item.response && (
-                      <div className="mt-4 pt-4 border-t border-border">
-                        <p className="text-xs font-medium text-muted-foreground mb-1">Response:</p>
-                        <p className="text-sm">{item.response}</p>
-                        {item.respondedAt && (
-                          <p className="text-xs text-muted-foreground mt-1">
-                            Responded on {new Date(item.respondedAt).toLocaleDateString()}
-                          </p>
-                        )}
-                      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {/* Submission Form */}
+            <Card className="bg-gray-900 border border-purple-500/20">
+              <CardHeader className="border-b border-purple-500/20">
+                <CardTitle className="text-white">Submit Your Thoughts</CardTitle>
+                <CardDescription className="text-gray-300">
+                  Share your feedback or ask questions about your courses.
+                </CardDescription>
+              </CardHeader>
+              <form onSubmit={handleSubmit}>
+                <CardContent className="space-y-4 pt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="type" className="text-gray-300">Type</Label>
+                    <Select 
+                      value={type} 
+                      onValueChange={setType}
+                    >
+                      <SelectTrigger className="bg-gray-800 border-purple-500/20 text-white">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-purple-500/20">
+                        <SelectItem value="feedback" className="text-white hover:bg-purple-500/10">Feedback</SelectItem>
+                        <SelectItem value="doubt" className="text-white hover:bg-purple-500/10">Question/Doubt</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="subject" className="text-gray-300">Subject</Label>
+                    <Input
+                      id="subject"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      placeholder={type === "feedback" ? "What's your feedback about?" : "What's your question about?"}
+                      className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-gray-300">Message</Label>
+                    <Textarea
+                      id="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder={type === "feedback" ? "Share your detailed feedback..." : "Describe your question in detail..."}
+                      rows={5}
+                      className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                    />
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Submit {type === "feedback" ? "Feedback" : "Question"}
+                      </>
                     )}
-                  </CardContent>
-                </Card>
-              ))
-            )}
+                  </Button>
+                </CardFooter>
+              </form>
+            </Card>
+            
+            {/* Previous Submissions */}
+            <div className="space-y-4 sm:space-y-6">
+              <h2 className="text-xl font-semibold text-white">Your Previous Submissions</h2>
+              
+              {isLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+                </div>
+              ) : previousFeedback.length === 0 ? (
+                <div className="text-center py-12 bg-gray-900/50 rounded-lg border border-purple-500/20">
+                  <MessageSquare className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-white mb-2">
+                    No submissions yet
+                  </h3>
+                  <p className="text-gray-300">
+                    Share your thoughts or ask questions to get started
+                  </p>
+                </div>
+              ) : (
+                previousFeedback.map((item) => (
+                  <Card 
+                    key={item._id} 
+                    className={`bg-gray-900 border ${
+                      item.status === "responded" 
+                        ? "border-purple-500/40" 
+                        : "border-purple-500/20 hover:border-purple-500/40"
+                    }`}
+                  >
+                    <CardHeader className="pb-2 border-b border-purple-500/20">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle className="text-base text-white">{item.subject}</CardTitle>
+                          <CardDescription className="text-xs text-gray-400">
+                            {new Date(item.createdAt).toLocaleDateString()} • 
+                            {item.type === "feedback" ? "Feedback" : "Question"}
+                          </CardDescription>
+                        </div>
+                        <div className={`px-2 py-1 rounded-full text-xs ${
+                          item.status === "responded" 
+                            ? "bg-purple-500/20 text-purple-400 border border-purple-500/30" 
+                            : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                        }`}>
+                          {item.status === "responded" ? "Responded" : "Pending"}
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-4">
+                      <p className="text-sm text-gray-300">{item.message}</p>
+                      
+                      {item.response && (
+                        <div className="mt-4 pt-4 border-t border-purple-500/20">
+                          <p className="text-xs font-medium text-purple-400 mb-1">Response:</p>
+                          <p className="text-sm text-gray-300">{item.response}</p>
+                          {item.respondedAt && (
+                            <p className="text-xs text-gray-400 mt-1">
+                              Responded on {new Date(item.respondedAt).toLocaleDateString()}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>

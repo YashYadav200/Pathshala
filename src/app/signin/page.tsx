@@ -45,38 +45,38 @@ export default function SigninPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-950 p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-purple-500/20">
           <div className="p-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-sky-500 to-indigo-500 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold text-white">
                 Welcome Back
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 mt-2">
+              <p className="text-gray-400 mt-2">
                 Sign in to your account to continue
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
+              <div className="mb-4 p-3 bg-red-500/10 text-red-400 rounded-lg text-sm border border-red-500/20">
                 {error}
               </div>
             )}
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">
+                <Label htmlFor="email" className="text-gray-300">
                   Email
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={18} />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={18} />
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600"
+                    className="pl-10 bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                     placeholder="Enter your email"
                     required
                   />
@@ -84,7 +84,7 @@ export default function SigninPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-slate-700 dark:text-slate-300">
+                <Label htmlFor="password" className="text-gray-300">
                   Password
                 </Label>
                 <Input
@@ -92,7 +92,7 @@ export default function SigninPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600"
+                  className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                   placeholder="Enter your password"
                   required
                 />
@@ -100,7 +100,7 @@ export default function SigninPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-medium py-2 rounded-lg transition-all duration-300"
+                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-2 rounded-lg transition-all duration-300"
                 disabled={loading}
               >
                 {loading ? "Signing in..." : "Sign In"}
@@ -110,10 +110,10 @@ export default function SigninPage() {
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+                  <div className="w-full border-t border-purple-500/20"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                  <span className="px-2 bg-gray-900 text-gray-400">
                     Or continue with
                   </span>
                 </div>
@@ -122,14 +122,14 @@ export default function SigninPage() {
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <Button
                   variant="outline"
-                  className="w-full border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                  className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10 hover:text-white"
                 >
                   <Github className="mr-2 h-4 w-4" />
                   GitHub
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                  className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10 hover:text-white"
                 >
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path
@@ -155,12 +155,12 @@ export default function SigninPage() {
             </div>
 
             <div className="mt-6 text-center text-sm">
-              <span className="text-slate-500 dark:text-slate-400">
+              <span className="text-gray-400">
                 Don&apos;t have an account?{" "}
               </span>
               <Link
                 href="/signup"
-                className="font-medium text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300"
+                className="font-medium text-purple-400 hover:text-purple-300"
               >
                 Sign up
               </Link>

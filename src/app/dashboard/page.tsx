@@ -92,44 +92,48 @@ export default function DashboardPage() {
   const menuItems = allMenuItems.filter(item => !item.isAdminOnly || isAdmin);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Mobile Sidebar Toggle */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="fixed top-4 left-4 z-50 lg:hidden"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        {isSidebarOpen ? (
-          <X className="h-6 w-6" />
-        ) : (
-          <Menu className="h-6 w-6" />
-        )}
-      </Button>
+    <div className="min-h-screen bg-gray-950">
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-gray-900 border-b border-purple-500/20 z-40 flex items-center px-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-white hover:bg-purple-500/10"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
+        </Button>
+        <h2 className="text-lg font-bold text-white ml-2">Pathshala</h2>
+      </div>
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full w-64 bg-card border-r border-border transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-[85vw] max-w-[300px] bg-gray-900 border-r border-purple-500/20 transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 z-40`}
+        } lg:translate-x-0 lg:w-64 z-50 lg:z-40`}
       >
-        <div className="p-6 border-b border-border">
-          <h2 className="text-2xl font-bold text-primary">Pathshala</h2>
-          <p className="text-sm text-muted-foreground">Learning Management</p>
+        <div className="p-3 sm:p-4 lg:p-6 border-b border-purple-500/20 lg:block hidden">
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">Pathshala</h2>
+          <p className="text-xs text-purple-400/70">Learning Management</p>
         </div>
-        <nav className="p-4 space-y-2">
+        <nav className="p-2 space-y-1 mt-14 lg:mt-0">
           {menuItems.map((item, index) => (
             <Link
               key={index}
               href={item.href}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-purple-500/10 hover:text-white transition-colors"
+              onClick={() => setIsSidebarOpen(false)}
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary">
+              <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 rounded-lg bg-purple-500/20 text-purple-400/70">
                 {item.icon}
               </div>
-              <div>
-                <div className="font-medium">{item.label}</div>
-                <div className="text-xs text-muted-foreground">
+              <div className="min-w-0 flex-1">
+                <div className="font-medium text-white text-sm truncate">{item.label}</div>
+                <div className="text-xs text-purple-400/70 truncate">
                   {item.description}
                 </div>
               </div>
@@ -144,27 +148,27 @@ export default function DashboardPage() {
           isSidebarOpen ? "lg:ml-64" : "ml-0"
         }`}
       >
-        <div className="p-8">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold text-foreground mb-8">
+        <div className="p-2 sm:p-4 lg:p-6 pt-16 lg:pt-2">
+          <div className="max-w-6xl mx-auto">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4 lg:mb-6">
               Dashboard Overview
             </h1>
 
             {/* Dashboard Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
               {menuItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="p-6 rounded-xl bg-card hover:bg-accent/10 border border-border transition-colors"
+                  className="p-2 sm:p-3 lg:p-4 rounded-lg bg-gray-900 border border-purple-500/20 hover:bg-purple-500/10 transition-colors group shadow-lg shadow-purple-500/5"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="p-2 rounded-lg bg-purple-500/20 text-purple-400/70 group-hover:scale-110 transition-transform duration-300">
                       {item.icon}
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold">{item.label}</h3>
-                      <p className="text-sm text-muted-foreground">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm sm:text-base font-semibold text-white truncate">{item.label}</h3>
+                      <p className="text-xs text-purple-400/70 line-clamp-2">
                         {item.description}
                       </p>
                     </div>
@@ -175,6 +179,14 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
+
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 }

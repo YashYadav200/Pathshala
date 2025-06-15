@@ -287,323 +287,331 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <div className="flex gap-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-primary text-primary-foreground">
-                  <Upload className="w-4 h-4 mr-2" />
-                  Upload Lecture
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Upload New Lecture</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">Lecture Title</Label>
-                    <Input
-                      id="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Enter lecture title"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea
-                      id="description"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Enter lecture description"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="semester">Semester</Label>
-                    <select
-                      id="semester"
-                      value={semester}
-                      onChange={(e) => setSemester(e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                        <option key={sem} value={sem}>
-                          Semester {sem}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="video">Video</Label>
-                    <div className="border-2 border-dashed border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
-                      <Input
-                        id="video"
-                        type="file"
-                        accept="video/*"
-                        onChange={(e) => setVideo(e.target.files?.[0] || null)}
-                        className="hidden"
-                      />
-                      <label
-                        htmlFor="video"
-                        className="flex flex-col items-center gap-2 cursor-pointer"
-                      >
-                        <Video className="w-8 h-8 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">
-                          {video ? video.name : "Click to upload video"}
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-
-                  <Button type="submit" className="w-full">
+    <div className="min-h-screen bg-gray-950">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white">Admin Dashboard</h1>
+            <div className="flex flex-wrap gap-2 sm:gap-4">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                    <Upload className="w-4 h-4 mr-2" />
                     Upload Lecture
                   </Button>
-                </form>
-              </DialogContent>
-            </Dialog>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
-                  <FileText className="w-4 h-4 mr-2" />
-                  Upload Material
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Upload Study Material</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={handleMaterialSubmit} className="space-y-6 mt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="materialTitle">Material Title</Label>
-                    <Input
-                      id="materialTitle"
-                      value={materialTitle}
-                      onChange={(e) => setMaterialTitle(e.target.value)}
-                      placeholder="Enter material title"
-                      required
-                    />
-                  </div>
-                  
-                  {/* In your material upload dialog form */}
-                  <div className="space-y-2">
-                    <Label htmlFor="materialDescription">Description</Label>
-                    <Textarea
-                      id="materialDescription"
-                      value={materialDescription}
-                      onChange={(e) => setMaterialDescription(e.target.value)}
-                      placeholder="Enter material description"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="materialSemester">Semester</Label>
-                    <select
-                      id="materialSemester"
-                      value={materialSemester}
-                      onChange={(e) => setMaterialSemester(e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      required
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                        <option key={sem} value={sem}>
-                          Semester {sem}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="file">Document</Label>
-                    <div className="border-2 border-dashed border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] bg-gray-900 border-purple-500/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-white">Upload New Lecture</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title" className="text-white">Lecture Title</Label>
                       <Input
-                        id="file"
-                        type="file"
-                        accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
-                        onChange={(e) => setFile(e.target.files?.[0] || null)}
-                        className="hidden"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Enter lecture title"
+                        required
+                        className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
                       />
-                      <label
-                        htmlFor="file"
-                        className="flex flex-col items-center gap-2 cursor-pointer"
-                      >
-                        <FileText className="w-8 h-8 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">
-                          {file ? file.name : "Click to upload document"}
-                        </span>
-                      </label>
                     </div>
-                  </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="description" className="text-white">Description</Label>
+                      <Textarea
+                        id="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Enter lecture description"
+                        required
+                        className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="semester" className="text-white">Semester</Label>
+                      <select
+                        id="semester"
+                        value={semester}
+                        onChange={(e) => setSemester(e.target.value)}
+                        className="w-full p-2 bg-gray-800 border border-purple-500/20 rounded-md text-white"
+                        required
+                      >
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                          <option key={sem} value={sem}>
+                            Semester {sem}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-                  <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700">
+                    <div className="space-y-2">
+                      <Label htmlFor="video" className="text-white">Video</Label>
+                      <div className="border-2 border-dashed border-purple-500/20 rounded-lg p-4 hover:border-purple-500/50 transition-colors bg-gray-800">
+                        <Input
+                          id="video"
+                          type="file"
+                          accept="video/*"
+                          onChange={(e) => setVideo(e.target.files?.[0] || null)}
+                          className="hidden"
+                        />
+                        <label
+                          htmlFor="video"
+                          className="flex flex-col items-center gap-2 cursor-pointer"
+                        >
+                          <Video className="w-8 h-8 text-purple-400/70" />
+                          <span className="text-sm text-purple-400/70">
+                            {video ? video.name : "Click to upload video"}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                      Upload Lecture
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                    <FileText className="w-4 h-4 mr-2" />
                     Upload Material
                   </Button>
-                </form>
-              </DialogContent>
-            </Dialog>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-amber-600 hover:bg-amber-700 text-white">
-                  <Bell className="w-4 h-4 mr-2" />
-                  Add Announcement
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Create New Announcement</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={handleAnnouncementSubmit} className="space-y-6 mt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="announcementTitle">Announcement Title</Label>
-                    <Input
-                      id="announcementTitle"
-                      value={announcementTitle}
-                      onChange={(e) => setAnnouncementTitle(e.target.value)}
-                      placeholder="Enter announcement title"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="announcementDescription">Announcement Content</Label>
-                    <Textarea
-                      id="announcementDescription"
-                      value={announcementDescription}
-                      onChange={(e) => setAnnouncementDescription(e.target.value)}
-                      placeholder="Enter announcement content"
-                      className="min-h-[150px]"
-                      required
-                    />
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="important" 
-                      checked={isImportant}
-                      onCheckedChange={(checked) => setIsImportant(checked === true)}
-                    />
-                    <div className="grid gap-1.5 leading-none">
-                      <Label 
-                        htmlFor="important" 
-                        className="flex items-center text-sm font-medium leading-none gap-1"
-                      >
-                        <AlertTriangle className="h-4 w-4 text-red-500" />
-                        Mark as important
-                      </Label>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] bg-gray-900 border-purple-500/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-white">Upload Study Material</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleMaterialSubmit} className="space-y-6 mt-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="materialTitle" className="text-white">Material Title</Label>
+                      <Input
+                        id="materialTitle"
+                        value={materialTitle}
+                        onChange={(e) => setMaterialTitle(e.target.value)}
+                        placeholder="Enter material title"
+                        required
+                        className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                      />
                     </div>
-                  </div>
-
-                  <Button type="submit" className="w-full bg-amber-600 hover:bg-amber-700">
-                    Publish Announcement
-                  </Button>
-                </form>
-              </DialogContent>
-            </Dialog>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-green-600 hover:bg-green-700 text-white">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Mark Attendance
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[700px]">
-                <DialogHeader>
-                  <DialogTitle>Mark Student Attendance</DialogTitle>
-                </DialogHeader>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                  <div>
-                    <Label>Select Date</Label>
-                    <CalendarComponent
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={handleDateSelect}
-                      className="border rounded-md"
-                    />
-                    <div className="mt-4 space-y-2">
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        className="w-full" 
-                        onClick={markAllPresent}
-                      >
-                        <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                        Mark All Present
-                      </Button>
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        className="w-full" 
-                        onClick={markAllAbsent}
-                      >
-                        <XCircle className="w-4 h-4 mr-2 text-red-500" />
-                        Mark All Absent
-                      </Button>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="materialDescription" className="text-white">Description</Label>
+                      <Textarea
+                        id="materialDescription"
+                        value={materialDescription}
+                        onChange={(e) => setMaterialDescription(e.target.value)}
+                        placeholder="Enter material description"
+                        required
+                        className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                      />
                     </div>
-                  </div>
-                  <div className="max-h-[400px] overflow-y-auto pr-2">
-                    <Label className="mb-2 block">Students</Label>
-                    {isSubmitting ? (
-                      <div className="flex justify-center py-8">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        {attendanceData.map((student) => (
-                          <div 
-                            key={student.studentId} 
-                            className="flex items-center justify-between p-2 border rounded-md"
-                          >
-                            <span>{student.studentName}</span>
-                            <div className="flex items-center">
-                              <span className={`mr-2 text-sm ${student.present ? 'text-green-500' : 'text-red-500'}`}>
-                                {student.present ? 'Present' : 'Absent'}
-                              </span>
-                              <Checkbox 
-                                checked={student.present}
-                                onCheckedChange={() => toggleAttendance(student.studentId)}
-                              />
-                            </div>
-                          </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="materialSemester" className="text-white">Semester</Label>
+                      <select
+                        id="materialSemester"
+                        value={materialSemester}
+                        onChange={(e) => setMaterialSemester(e.target.value)}
+                        className="w-full p-2 bg-gray-800 border border-purple-500/20 rounded-md text-white"
+                        required
+                      >
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                          <option key={sem} value={sem}>
+                            Semester {sem}
+                          </option>
                         ))}
+                      </select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="file" className="text-white">Document</Label>
+                      <div className="border-2 border-dashed border-purple-500/20 rounded-lg p-4 hover:border-purple-500/50 transition-colors bg-gray-800">
+                        <Input
+                          id="file"
+                          type="file"
+                          accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
+                          onChange={(e) => setFile(e.target.files?.[0] || null)}
+                          className="hidden"
+                        />
+                        <label
+                          htmlFor="file"
+                          className="flex flex-col items-center gap-2 cursor-pointer"
+                        >
+                          <FileText className="w-8 h-8 text-purple-400/70" />
+                          <span className="text-sm text-purple-400/70">
+                            {file ? file.name : "Click to upload document"}
+                          </span>
+                        </label>
                       </div>
-                    )}
+                    </div>
+
+                    <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                      Upload Material
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                    <Bell className="w-4 h-4 mr-2" />
+                    Add Announcement
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] bg-gray-900 border-purple-500/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-white">Create New Announcement</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleAnnouncementSubmit} className="space-y-6 mt-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="announcementTitle" className="text-white">Announcement Title</Label>
+                      <Input
+                        id="announcementTitle"
+                        value={announcementTitle}
+                        onChange={(e) => setAnnouncementTitle(e.target.value)}
+                        placeholder="Enter announcement title"
+                        required
+                        className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="announcementDescription" className="text-white">Announcement Content</Label>
+                      <Textarea
+                        id="announcementDescription"
+                        value={announcementDescription}
+                        onChange={(e) => setAnnouncementDescription(e.target.value)}
+                        placeholder="Enter announcement content"
+                        className="min-h-[150px] bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                        required
+                      />
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="important" 
+                        checked={isImportant}
+                        onCheckedChange={(checked) => setIsImportant(checked === true)}
+                        className="border-purple-500/20"
+                      />
+                      <div className="grid gap-1.5 leading-none">
+                        <Label 
+                          htmlFor="important" 
+                          className="flex items-center text-sm font-medium leading-none gap-1 text-white"
+                        >
+                          <AlertTriangle className="h-4 w-4 text-red-500" />
+                          Mark as important
+                        </Label>
+                      </div>
+                    </div>
+
+                    <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                      Publish Announcement
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Mark Attendance
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[700px] bg-gray-900 border-purple-500/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-white">Mark Student Attendance</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                      <Label className="text-white">Select Date</Label>
+                      <CalendarComponent
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={handleDateSelect}
+                        className="border border-purple-500/20 rounded-md bg-gray-800 [&_.rdp-day]:text-white [&_.rdp-day]:font-medium [&_.rdp-nav_button]:text-white [&_.rdp-nav_button]:hover:bg-purple-500/10 [&_.rdp-nav_button]:border-purple-500/30 [&_.rdp-nav_button]:bg-transparent [&_.rdp-head_cell]:text-purple-400 [&_.rdp-day_selected]:bg-purple-600 [&_.rdp-day_selected]:hover:bg-purple-700 [&_.rdp-day]:hover:bg-purple-500/10 [&_.rdp-button]:text-white [&_.rdp-button]:hover:bg-purple-500/10 [&_.rdp-button]:hover:text-white [&_.rdp-button]:focus:bg-purple-500/10 [&_.rdp-button]:focus:text-white [&_.rdp-button]:focus:ring-purple-500/30 [&_.rdp-caption]:text-white [&_.rdp-caption_label]:text-white [&_.rdp-nav]:text-white"
+                      />
+                      <div className="mt-4 space-y-2">
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10" 
+                          onClick={markAllPresent}
+                        >
+                          <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
+                          Mark All Present
+                        </Button>
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          className="w-full border-purple-500/20 text-purple-400 hover:bg-purple-500/10" 
+                          onClick={markAllAbsent}
+                        >
+                          <XCircle className="w-4 h-4 mr-2 text-red-500" />
+                          Mark All Absent
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="max-h-[400px] overflow-y-auto pr-2">
+                      <Label className="mb-2 block text-white">Students</Label>
+                      {isSubmitting ? (
+                        <div className="flex justify-center py-8">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {attendanceData.map((student) => (
+                            <div 
+                              key={student.studentId} 
+                              className="flex items-center justify-between p-2 border border-purple-500/20 rounded-md bg-gray-800"
+                            >
+                              <span className="text-white">{student.studentName}</span>
+                              <div className="flex items-center">
+                                <span className={`mr-2 text-sm ${student.present ? 'text-green-500' : 'text-red-500'}`}>
+                                  {student.present ? 'Present' : 'Absent'}
+                                </span>
+                                <Checkbox 
+                                  checked={student.present}
+                                  onCheckedChange={() => toggleAttendance(student.studentId)}
+                                  className="border-purple-500/20"
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <Button 
-                  className="w-full mt-6 bg-green-600 hover:bg-green-700"
-                  onClick={submitAttendance}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Saving...' : 'Save Attendance'}
-                </Button>
-              </DialogContent>
-            </Dialog>
+                  <Button 
+                    className="w-full mt-6 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+                    onClick={submitAttendance}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Saving...' : 'Save Attendance'}
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <Link href="/dashboard/admin/feedback" className="p-6 rounded-xl bg-card hover:bg-accent/10 border border-border transition-colors">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+        <Link href="/dashboard/admin/feedback" className="p-4 sm:p-6 rounded-xl bg-gray-900 hover:bg-purple-500/10 border border-purple-500/20 transition-colors group">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-primary/10 text-primary">
+            <div className="p-3 rounded-xl bg-purple-500/20 text-purple-400/70 group-hover:scale-110 transition-transform duration-300">
               <MessageSquare className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">Manage Feedback</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-semibold text-white">Manage Feedback</h3>
+              <p className="text-sm text-purple-400/70">
                 View and respond to user feedback and questions
               </p>
             </div>

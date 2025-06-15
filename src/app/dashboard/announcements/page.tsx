@@ -40,75 +40,85 @@ export default function AnnouncementsPage() {
 
   if (loading) {
     return (
-      <div className="p-8 flex justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-gray-950 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-8 text-center text-red-500">
+      <div className="min-h-screen bg-gray-950 flex justify-center items-center text-red-400">
         {error}
       </div>
     );
   }
 
   return (
-    <div className="p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-2 mb-8">
-          <Bell className="h-6 w-6 text-primary" />
-          <h1 className="text-3xl font-bold">Announcements</h1>
-        </div>
-        
-        <div className="space-y-6">
-          {announcements.map((announcement) => (
-            <Card 
-              key={announcement._id} 
-              className={`overflow-hidden transition-all ${
-                announcement.important 
-                  ? "border-red-200 shadow-md shadow-red-100 dark:border-red-900 dark:shadow-red-900/20" 
-                  : ""
-              }`}
-            >
-              <CardHeader className={`${
-                announcement.important 
-                  ? "bg-red-50 dark:bg-red-950/20" 
-                  : "bg-muted/50"
-              }`}>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl">{announcement.title}</CardTitle>
-                  {announcement.important && (
-                    <Badge variant="destructive">Important</Badge>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <p className="text-muted-foreground mb-4 whitespace-pre-line">
-                  {announcement.description}
-                </p>
-                
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span>
-                    {new Date(announcement.createdAt).toLocaleDateString()} at {' '}
-                    {new Date(announcement.createdAt).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {announcements.length === 0 && (
-          <div className="text-center text-muted-foreground py-12">
-            No announcements available.
+    <div className="min-h-screen bg-gray-950">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-2 mb-6 sm:mb-8">
+            <Bell className="h-6 w-6 text-purple-400" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-white">Announcements</h1>
           </div>
-        )}
+          
+          <div className="space-y-4 sm:space-y-6">
+            {announcements.map((announcement) => (
+              <Card 
+                key={announcement._id} 
+                className={`overflow-hidden transition-all bg-gray-900 border ${
+                  announcement.important 
+                    ? "border-purple-500/40 shadow-lg shadow-purple-500/10" 
+                    : "border-purple-500/20 hover:border-purple-500/40"
+                }`}
+              >
+                <CardHeader className={`${
+                  announcement.important 
+                    ? "bg-purple-500/10" 
+                    : "bg-gray-800/50"
+                } border-b border-purple-500/20`}>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-xl text-white">{announcement.title}</CardTitle>
+                    {announcement.important && (
+                      <Badge className="bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                        Important
+                      </Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <p className="text-gray-300 mb-4 whitespace-pre-line">
+                    {announcement.description}
+                  </p>
+                  
+                  <div className="flex items-center text-sm text-gray-400">
+                    <Calendar className="h-4 w-4 mr-2 text-purple-400" />
+                    <span>
+                      {new Date(announcement.createdAt).toLocaleDateString()} at {' '}
+                      {new Date(announcement.createdAt).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {announcements.length === 0 && (
+            <div className="text-center py-12 bg-gray-900/50 rounded-lg border border-purple-500/20">
+              <Bell className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-white mb-2">
+                No announcements available
+              </h3>
+              <p className="text-gray-300">
+                Check back later for new announcements
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

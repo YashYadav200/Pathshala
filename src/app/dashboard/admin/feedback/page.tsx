@@ -177,127 +177,131 @@ export default function AdminFeedbackPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 flex items-center">
-          <MessageSquare className="mr-2 h-8 w-8 text-primary" />
-          Manage Feedback & Doubts
-        </h1>
-        
-        <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="mb-8">
-          <TabsList className="grid grid-cols-5 w-full max-w-2xl">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="responded">Responded</TabsTrigger>
-            <TabsTrigger value="feedback">Feedback</TabsTrigger>
-            <TabsTrigger value="doubt">Questions</TabsTrigger>
-          </TabsList>
-        </Tabs>
-        
-        {filteredFeedback.length === 0 ? (
-          <div className="text-center py-12 bg-muted/20 rounded-lg">
-            <MessageCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-medium">No feedback found</h3>
-            <p className="text-muted-foreground">There are no items matching your current filter.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6">
-            {filteredFeedback.map((item) => (
-              <Card key={item._id} className={item.status === "responded" ? "border-green-200" : ""}>
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-lg">{item.subject}</CardTitle>
-                      <CardDescription>
-                        From: {item.userId.name} ({item.userId.email}) • 
-                        {new Date(item.createdAt).toLocaleDateString()} • 
-                        <Badge variant={item.type === "feedback" ? "default" : "secondary"}>
-                          {item.type === "feedback" ? "Feedback" : "Question"}
-                        </Badge> • 
-                        <Badge variant={item.status === "responded" ? "outline" : "destructive"}>
-                          {item.status === "responded" ? "Responded" : "Pending"}
-                        </Badge>
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-muted/20 p-4 rounded-md mb-4">
-                    <p className="whitespace-pre-wrap">{item.message}</p>
-                  </div>
-                  
-                  {item.response && (
-                    <div className="mt-4 pt-4 border-t border-border">
-                      <h4 className="text-sm font-medium mb-2">Your Response:</h4>
-                      <div className="bg-primary/5 p-4 rounded-md">
-                        <p className="whitespace-pre-wrap">{item.response}</p>
+    <div className="min-h-screen bg-gray-950">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 flex items-center text-white">
+            <MessageSquare className="mr-2 h-6 w-6 sm:h-8 sm:w-8 text-purple-400" />
+            Manage Feedback & Doubts
+          </h1>
+          
+          <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="mb-6 sm:mb-8">
+            <TabsList className="grid grid-cols-5 w-full max-w-2xl bg-gray-900 border border-purple-500/20">
+              <TabsTrigger value="all" className="text-gray-300 data-[state=active]:bg-purple-500/20 data-[state=active]:text-white">All</TabsTrigger>
+              <TabsTrigger value="pending" className="text-gray-300 data-[state=active]:bg-purple-500/20 data-[state=active]:text-white">Pending</TabsTrigger>
+              <TabsTrigger value="responded" className="text-gray-300 data-[state=active]:bg-purple-500/20 data-[state=active]:text-white">Responded</TabsTrigger>
+              <TabsTrigger value="feedback" className="text-gray-300 data-[state=active]:bg-purple-500/20 data-[state=active]:text-white">Feedback</TabsTrigger>
+              <TabsTrigger value="doubt" className="text-gray-300 data-[state=active]:bg-purple-500/20 data-[state=active]:text-white">Questions</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          
+          {filteredFeedback.length === 0 ? (
+            <div className="text-center py-12 bg-gray-900/50 rounded-lg border border-purple-500/20">
+              <MessageCircle className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-white">No feedback found</h3>
+              <p className="text-gray-300">There are no items matching your current filter.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
+              {filteredFeedback.map((item) => (
+                <Card key={item._id} className={`bg-gray-900 border ${item.status === "responded" ? "border-purple-500/20" : "border-purple-500/20"}`}>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg text-white">{item.subject}</CardTitle>
+                        <CardDescription className="text-gray-300">
+                          From: {item.userId.name} ({item.userId.email}) • 
+                          {new Date(item.createdAt).toLocaleDateString()} • 
+                          <Badge variant={item.type === "feedback" ? "default" : "secondary"} className="bg-purple-500/20 text-white border-purple-500/30">
+                            {item.type === "feedback" ? "Feedback" : "Question"}
+                          </Badge> • 
+                          <Badge variant={item.status === "responded" ? "outline" : "destructive"} className={item.status === "responded" ? "border-purple-500/30 text-white" : "bg-red-500/20 text-white border-red-500/30"}>
+                            {item.status === "responded" ? "Responded" : "Pending"}
+                          </Badge>
+                        </CardDescription>
                       </div>
-                      {item.respondedAt && (
-                        <p className="text-xs text-muted-foreground mt-2">
-                          Responded on {new Date(item.respondedAt).toLocaleDateString()}
-                        </p>
-                      )}
                     </div>
-                  )}
-                </CardContent>
-                <CardFooter>
-                  {item.status === "pending" ? (
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button 
-                          onClick={() => setRespondingTo(item._id)}
-                          className="w-full"
-                        >
-                          <MessageCircle className="mr-2 h-4 w-4" />
-                          Respond
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Respond to {item.type === "feedback" ? "Feedback" : "Question"}</DialogTitle>
-                          <DialogDescription>
-                            You are responding to: {item.subject}
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="bg-muted/20 p-4 rounded-md mb-4 max-h-40 overflow-y-auto">
-                          <p className="text-sm">{item.message}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-gray-800/50 p-4 rounded-md mb-4 border border-purple-500/10">
+                      <p className="whitespace-pre-wrap text-white">{item.message}</p>
+                    </div>
+                    
+                    {item.response && (
+                      <div className="mt-4 pt-4 border-t border-purple-500/20">
+                        <h4 className="text-sm font-medium mb-2 text-white">Your Response:</h4>
+                        <div className="bg-purple-500/5 p-4 rounded-md border border-purple-500/10">
+                          <p className="whitespace-pre-wrap text-white">{item.response}</p>
                         </div>
-                        <Textarea
-                          value={responseText}
-                          onChange={(e) => setResponseText(e.target.value)}
-                          placeholder="Type your response here..."
-                          rows={5}
-                        />
-                        <DialogFooter>
+                        {item.respondedAt && (
+                          <p className="text-xs text-gray-300 mt-2">
+                            Responded on {new Date(item.respondedAt).toLocaleDateString()}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                  <CardFooter>
+                    {item.status === "pending" ? (
+                      <Dialog>
+                        <DialogTrigger asChild>
                           <Button 
-                            onClick={() => handleRespond(item._id)}
-                            disabled={isSubmitting}
+                            onClick={() => setRespondingTo(item._id)}
+                            className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
                           >
-                            {isSubmitting ? (
-                              <>
-                                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent"></div>
-                                Sending...
-                              </>
-                            ) : (
-                              <>
-                                <Send className="mr-2 h-4 w-4" />
-                                Send Response
-                              </>
-                            )}
+                            <MessageCircle className="mr-2 h-4 w-4" />
+                            Respond
                           </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  ) : (
-                    <Button variant="outline" className="w-full" disabled>
-                      Already Responded
-                    </Button>
-                  )}
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        )}
+                        </DialogTrigger>
+                        <DialogContent className="bg-gray-900 border-purple-500/20">
+                          <DialogHeader>
+                            <DialogTitle className="text-white">Respond to {item.type === "feedback" ? "Feedback" : "Question"}</DialogTitle>
+                            <DialogDescription className="text-gray-300">
+                              You are responding to: {item.subject}
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="bg-gray-800/50 p-4 rounded-md mb-4 max-h-40 overflow-y-auto border border-purple-500/10">
+                            <p className="text-sm text-white">{item.message}</p>
+                          </div>
+                          <Textarea
+                            value={responseText}
+                            onChange={(e) => setResponseText(e.target.value)}
+                            placeholder="Type your response here..."
+                            rows={5}
+                            className="bg-gray-800 border-purple-500/20 text-white placeholder:text-gray-400"
+                          />
+                          <DialogFooter>
+                            <Button 
+                              onClick={() => handleRespond(item._id)}
+                              disabled={isSubmitting}
+                              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+                            >
+                              {isSubmitting ? (
+                                <>
+                                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                                  Sending...
+                                </>
+                              ) : (
+                                <>
+                                  <Send className="mr-2 h-4 w-4" />
+                                  Send Response
+                                </>
+                              )}
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                    ) : (
+                      <Button variant="outline" className="w-full border-purple-500/20 text-white hover:bg-purple-500/10" disabled>
+                        Already Responded
+                      </Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
