@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-// Check if the model is already defined to prevent overwriting
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Use mongoose.models if it exists, otherwise create new model
+
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
 export default User;

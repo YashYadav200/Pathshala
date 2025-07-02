@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 
-// Define the student attendance schema
+
 const StudentAttendanceSchema = new Schema({
   studentId: {
-    type: String, // Change from Schema.Types.ObjectId to String
+    type: String, 
     required: true,
   },
   studentName: {
@@ -16,7 +16,7 @@ const StudentAttendanceSchema = new Schema({
   },
 });
 
-// Define the attendance schema
+
 const AttendanceSchema = new Schema({
   date: {
     type: Date,
@@ -26,7 +26,7 @@ const AttendanceSchema = new Schema({
   students: [StudentAttendanceSchema],
 }, { timestamps: true });
 
-// Create and export the model
+
 const Attendance = mongoose.models.Attendance || mongoose.model('Attendance', AttendanceSchema);
 
 export default Attendance;
